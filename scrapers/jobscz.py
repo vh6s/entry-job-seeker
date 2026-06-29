@@ -91,7 +91,7 @@ class JobsCZScraper:
         
         # extracted description if element exists, added a new line between paragraphs
         description_element = soup.select_one("[data-test='jd-body-richtext']")
-        description = (description_element.get_text("\n", strip=True) if description_element else "")
+        description = (description_element.get_text("\n\n", strip=True) if description_element else "")
         
         technologies = extract_technologies(description)
         
