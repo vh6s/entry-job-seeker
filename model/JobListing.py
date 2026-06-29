@@ -4,5 +4,8 @@ from datetime import date
 
 @dataclass
 class JobListing:
-    url: str
+    title: str
+    company: str
+    location: str
     published: date | None
+    url: str
