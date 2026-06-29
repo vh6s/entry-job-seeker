@@ -1,6 +1,7 @@
 from datetime import date, timedelta
+import re
 
-_MONTHS = {
+MONTHS = {
     "ledna": 1,
     "února": 2,
     "března": 3,
@@ -15,26 +16,32 @@ _MONTHS = {
     "prosince": 12,
 }
 
-def parse_published_date(self, text: str) -> date | None:
-        
+def parse_published_date(text: str) -> date | None:
         text = text.strip().lower()
-
         today = date.today()
-
-        if text == "dnes":
+        
+        if "končí" in text:
+            return None
+        
+        if "před" in text:
             return today
 
-        if text == "včera":
+        if "dnes" in text:
+            return today
+
+        if "včera" in text:
             return today - timedelta(days=1)
 
-        try:
-            day_str, month_name = text.replace(".", "").split()
-
-            return date(
-                year=today.year,
-                month=_MONTHS[month_name],
-                day=int(day_str),
-            )
-
-        except (ValueError, KeyError):
-            return None
+        match = re.search(r'(\d+)\.\s*([a-zěščřžýáíéúů]+)', text)
+        if match:
+            day_str = match.group(1)
+            month_name = match.group(2)
+            
+            if month_name in MONTHS:
+                return date(
+                    year=today.year,
+                    month=MONTHS[month_name],
+                    day=int(day_str),
+                )
+                
+        return None

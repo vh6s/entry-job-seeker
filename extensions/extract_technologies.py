@@ -6,7 +6,6 @@ KNOWN_TECHNOLOGIES = {
     "javascript",
     "typescript",
     "react",
-    "angular",
     "vue",
     "node.js",
     "django",
@@ -29,6 +28,10 @@ KNOWN_TECHNOLOGIES = {
     "rest",
     "graphql",
     "mcp",
+    "power bi",
+    "databricks",
+    "etl",
+    "excel"
 }
 
 def extract_technologies(description: str) -> list[str]:

@@ -7,7 +7,7 @@ class DiscordNotification:
     def __init__(self):
         self.webhook_url = DISCORD_WEBHOOK
     
-    def send_summary(self, jobs: list[JobOffer]) -> None:
+    def send_notification(self, jobs: list[JobOffer]) -> None:
         if not jobs:
             return
 

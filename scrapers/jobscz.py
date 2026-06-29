@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import requests
-from extensions import extract_technologies
+from extensions.extract_technologies import extract_technologies
 from extensions.date_formatter import parse_published_date
-from model import JobListing, JobOffer
+from model.JobListing import JobListing
+from model.JobOffer import JobOffer
 
 class JobsCZScraper:
     BASE_URL = "https://www.jobs.cz"
