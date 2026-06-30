@@ -38,8 +38,6 @@ class JobsCZScraper:
                 current_url = urljoin(self.BASE_URL, next_button["href"])
             else:
                 current_url = None
-                
-            print(current_url)
             
         return job_listings
     

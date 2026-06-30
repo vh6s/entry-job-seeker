@@ -13,6 +13,9 @@ class GoogleSheets:
        
      
     def append_offer(self, offers: list[JobOffer]) -> None:
+        if not offers:
+            return
+        
         jobs = []
         
         for job in offers:
@@ -29,5 +32,34 @@ class GoogleSheets:
                 job.url,
                 job.description,
             ])
+        jobs.sort(key=lambda row: row[7], reverse=True)
     
-        self.sh.append_rows(jobs)
+        self.sh.insert_rows(jobs, row = 3)
+        self._copy_checkboxes_to_last_row(len(jobs))
+        
+    
+    def _copy_checkboxes_to_last_row(self, count: int) -> None:
+        requests = []
+
+        for i in range(count):
+            requests.append({
+                "copyPaste": {
+                    "source": {
+                        "sheetId": self.sh.id,
+                        "startRowIndex": 1,
+                        "endRowIndex": 2,
+                        "startColumnIndex": 3,
+                        "endColumnIndex": 6,
+                    },
+                    "destination": {
+                        "sheetId": self.sh.id,
+                        "startRowIndex": 2 + i,
+                        "endRowIndex": 3 + i,
+                        "startColumnIndex": 3,
+                        "endColumnIndex": 6,
+                    },
+                    "pasteType": "PASTE_NORMAL",
+                }
+            })
+
+        self.sh.spreadsheet.batch_update({"requests": requests})
